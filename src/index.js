@@ -10,7 +10,7 @@ const BASE_URL = 'https://pixabay.com/api/';
 const OPTIONS = 'image_type=photo&orientation=horizontal&safesearch=true'
 const KEY ='38315175-abb8429954921ba34a6a526ed'
 
-refs = { 
+const refs = { 
     form: document.querySelector('.search-form'),
     gallery: document.querySelector('.gallery'),
 }
