@@ -1,5 +1,7 @@
 import Notiflix from 'notiflix';
 import axios from 'axios';
+import SimpleLightbox from "simplelightbox";
+import "simplelightbox/dist/simple-lightbox.min.css";
 
 const BASE_URL = 'https://pixabay.com/api/';
 const OPTIONS = 'image_type=photo&orientation=horizontal&safesearch=true&per_page=40'
@@ -24,47 +26,57 @@ refs.form.addEventListener('submit', onSubmitSearch);
 
  async function onSubmitSearch(e) {
    e.preventDefault();
+   addHiddenAtribute(refs.error)
    addHiddenAtribute(refs.loadMore);
+   
    refs.gallery.textContent = "";
     let { searchQuery } = e.currentTarget.elements;
-   try {     
-    const data = await onSearch(searchQuery.value)
-     const response = await createMarcup(data.hits)
+   try {       
+     const data = await onSearch(searchQuery.value)
     
-     removeHiddenAtribute(refs.loadMore)
+     if (data.hits.length === 0) {     
+      console.log(data.totalHits) 
+      Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.") 
+       removeHiddenAtribute(refs.error)
        
-removeHiddenAtribute(refs.loadMore)
-    
+     } else if (curretPage >= Number(data.totalHits/40)){
+            
+      Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.")
+       addHiddenAtribute(refs.loadMore)
+   
+     } else {
+       console.log( Number(data.totalHits/40))
+       const response = await createMarcup(data.hits)
+       Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);
+
+ }   
    } catch (error) {
      Notiflix.Notify.failure(error)
       removeHiddenAtribute(refs.error)
      console.log(error)
-     console.log('gggggggggggggggggggg')
-    }    
+     }    
 }
 
 
 function createMarcup(e) {
-  console.log(e)
-//   if (e === []) {
-//    return removeHiddenAtribute(refs.loadMore)
-//  }
-   let marcup = e.map(({ likes, largeImageURL, tags, views, webformatURL, comments, downloads }) =>
 
+   removeHiddenAtribute(refs.loadMore)
+
+   let marcup = e.map(({ likes, largeImageURL, tags, views, webformatURL, comments, downloads }) =>
             `<div class="photo-card">
   <img class="img-photo" src="${webformatURL}" alt="${tags}" loading="lazy"  />
   <div class="info">
     <p class="info-item">
-      <b>Likes</b> ${likes}
+      <b>Likes</b><br> ${likes}
     </p>
     <p class="info-item">
-      <b>Views</b> ${views}
+      <b>Views</b><br> ${views}
     </p>
     <p class="info-item">
-      <b>Comments</b> ${comments}
+      <b>Comments</b><br> ${comments}
     </p>
     <p class="info-item">
-      <b>Downloads</b> ${downloads}
+      <b>Downloads</b><br> ${downloads}
     </p>
   </div>
 </div>`).join('');
@@ -72,34 +84,29 @@ function createMarcup(e) {
 }
 
 
-
-
 refs.loadMore.addEventListener('click', onClickLoadMore)
 
 async function onClickLoadMore() {
   curretPage += 1
-  let d = refs.input.value;
+  let currentValue = refs.input.value;
   
-   try {     
-    const data = await onSearch(d, curretPage)
-     const response = await createMarcup(data.hits)
-    
-       
-removeHiddenAtribute(refs.loadMore)
-    
+  try {    
+   
+    const data = await onSearch(currentValue, curretPage)
+     
+    const response = await createMarcup(data.hits)
+    if (curretPage >= Number(data.totalHits/40)){
+      
+      Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.")
+      addHiddenAtribute(refs.loadMore)
+      refs.loadMore.hidden
+   
+     }
     } catch (error) {
       removeHiddenAtribute(refs.error)
      console.log(error)
-     console.log('gggggggggggggggggggg')
-    }    
+     }    
 }
-
-
-
-
-
-
-
 
 
 function removeHiddenAtribute(el) {

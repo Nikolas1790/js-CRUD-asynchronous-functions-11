@@ -10,28 +10,29 @@
   <body>
     <!-- ❗️❗️❗️ Add partials like so for every page -->
     <!-- <include src="./partials/example.html"></include> -->
+    <div class="input-form">
+      <form class="search-form" id="search-form">
+        <input
+          class="input"
+          type="text"
+          name="searchQuery"
+          autocomplete="off"
+          placeholder="Search images..."
+        />
 
-    <form class="search-form" id="search-form">
-      <input
-        class="input"
-        type="text"
-        name="searchQuery"
-        autocomplete="off"
-        placeholder="Search images..."
-      />
-
-      <button type="submit">Search</button>
-    </form>
+        <button class="submit" type="submit">Search</button>
+      </form>
+    </div>
 
     <p class="error" hidden>
       Sorry, there are no images matching your search query. Please try again.
     </p>
-    <!-- <p class="sorry" hidden>
-        We're sorry, but you've reached the end of search results.
-      </p> -->
+
     <div class="gallery">
       <!-- Карточки изображений -->
     </div>
-    <button type="button" class="load-more" hidden>Load more</button>
+    <div class="button-on-ctntet">
+      <button type="button" class="load-more" hidden>Load more</button>
+    </div>
   </body>
 </html>
