@@ -64,7 +64,8 @@ function createMarcup(e) {
 
    let marcup = e.map(({ likes, largeImageURL, tags, views, webformatURL, comments, downloads }) =>
             `<div class="photo-card">
-  <img class="img-photo" src="${webformatURL}" alt="${tags}" loading="lazy"  />
+            <a href="${largeImageURL}">
+  <img class="img-photo" src="${webformatURL}" alt="${tags}" loading="lazy"  /> </a>
   <div class="info">
     <p class="info-item">
       <b>Likes</b><br> ${likes}
@@ -79,8 +80,10 @@ function createMarcup(e) {
       <b>Downloads</b><br> ${downloads}
     </p>
   </div>
+ 
 </div>`).join('');
-       refs.gallery.insertAdjacentHTML('beforeend', marcup); 
+  refs.gallery.insertAdjacentHTML('beforeend', marcup); 
+  var lightbox = new SimpleLightbox('.gallery a', {captionsData: `alt`, captionDelay: 250 });
 }
 
 
