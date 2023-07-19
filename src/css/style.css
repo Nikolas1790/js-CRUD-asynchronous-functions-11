@@ -1,0 +1,22 @@
+.photo-card {
+  border: 1px solid gray;
+  border-radius: 4px;
+}
+.info {
+  /* display: flex; */
+}
+.info-item {
+  /* display: flex; */
+  /* font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: 0.02em; */
+}
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10;
+  margin: 1%;
+}
+.img-photo {
+  max-width: 300px;
+}

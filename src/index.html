@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Page title</title>
-    <link rel="stylesheet" href="./sass/index.scss" />
+    <link rel="stylesheet" href="css/style.css" />
     <script type="module" src="./index.js"></script>
   </head>
   <body>
@@ -13,6 +13,7 @@
 
     <form class="search-form" id="search-form">
       <input
+        class="input"
         type="text"
         name="searchQuery"
         autocomplete="off"
@@ -22,14 +23,15 @@
       <button type="submit">Search</button>
     </form>
 
-    <!-- <p class="error" hidden>
-        Sorry, there are no images matching your search query. Please try again.
-      </p> -->
+    <p class="error" hidden>
+      Sorry, there are no images matching your search query. Please try again.
+    </p>
     <!-- <p class="sorry" hidden>
         We're sorry, but you've reached the end of search results.
       </p> -->
     <div class="gallery">
       <!-- Карточки изображений -->
     </div>
+    <button type="button" class="load-more" hidden>Load more</button>
   </body>
 </html>
