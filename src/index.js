@@ -43,11 +43,22 @@ refs.form.addEventListener('submit', onSubmitSearch);
             
       Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.")
        addHiddenAtribute(refs.loadMore)
+
+      
    
      } else {
        console.log( Number(data.totalHits/40))
        const response = await createMarcup(data.hits)
        Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);
+
+//        const { height: cardHeight } = document
+//   .querySelector(".gallery")
+//   .firstElementChild.getBoundingClientRect();
+
+// window.scrollBy({
+//   top: cardHeight * 2,
+//   behavior: "smooth",
+// });
 
  }   
    } catch (error) {
@@ -83,8 +94,8 @@ function createMarcup(e) {
  
 </div>`).join('');
   refs.gallery.insertAdjacentHTML('beforeend', marcup); 
-  var lightbox = new SimpleLightbox('.gallery a', {captionsData: `alt`, captionDelay: 250});
-}
+  var lightbox = new SimpleLightbox('.gallery a', { captionsData: `alt`, captionDelay: 250 }); 
+  }
 
 
 refs.loadMore.addEventListener('click', onClickLoadMore)
@@ -93,16 +104,24 @@ async function onClickLoadMore() {
   curretPage += 1
   let currentValue = refs.input.value;
   
-  try {    
-   
-    const data = await onSearch(currentValue, curretPage)
-     
+  try {       
+    const data = await onSearch(currentValue, curretPage)     
     const response = await createMarcup(data.hits)
+
+
+    const { height: cardHeight } = document
+  .querySelector(".gallery")
+  .firstElementChild.getBoundingClientRect();
+
+window.scrollBy({
+  top: cardHeight * 2,
+  behavior: "smooth",
+});
+    
     if (curretPage >= Number(data.totalHits/40)){
       
       Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.")
-      addHiddenAtribute(refs.loadMore)
-      refs.loadMore.hidden
+      addHiddenAtribute(refs.loadMore) 
    
      }
     } catch (error) {
