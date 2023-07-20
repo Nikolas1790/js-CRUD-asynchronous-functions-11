@@ -16,59 +16,46 @@ const refs = {
   input: document.querySelector('.input'),
   submit: document.querySelector('.submit'),
 }
-//  console.log(refs.input)
-// if (refs.input.value ==='' ) {
-//      refs.submit.disabled = false
-//    }
 
 async function onSearch(whatFound, page=1) {  
   const response = await axios.get(`${BASE_URL}?key=${KEY}&q=${whatFound}&${OPTIONS}&page=${page}`);
           return response.data
  
 }
-
+refs.loadMore.addEventListener('click', onClickLoadMore);
 refs.form.addEventListener('submit', onSubmitSearch);
 
  async function onSubmitSearch(e) {
-   e.preventDefault();
-  
+   e.preventDefault();  
    addHiddenAtribute(refs.error)
    addHiddenAtribute(refs.loadMore);
   
    refs.gallery.textContent = "";
-   let { searchQuery } = e.currentTarget.elements;
+   let { searchQuery } = e.currentTarget.elements;   
    
-   
-   if (!searchQuery.value) {
+   if (!searchQuery.value.trim()) {
      Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.") 
-     return refs.gallery.textContent = "";
-     
+     return refs.gallery.textContent = "";     
    }
 
 
    try {       
      const data = await onSearch(searchQuery.value)
     
-     if (data.hits.length === 0) {     
+     if (data.hits.length === 0) {          
       console.log(data.totalHits) 
       Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.") 
        removeHiddenAtribute(refs.error)
        
-     } else if (curretPage >= Number(data.totalHits / 40)) {
-     
-            console.log('hhhhhhhhhhhhh')
-      Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.")
-       
+     } else if (curretPage >= Number(data.totalHits / 40)) {     
 const response = await createMarcup(data.hits)
-       Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);
-      
+       Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);      
    
      } else {
          removeHiddenAtribute(refs.loadMore)
        console.log( Number(data.totalHits/40))
        const response = await createMarcup(data.hits)
        Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);
-
 
  }   
    } catch (error) {
@@ -80,9 +67,6 @@ const response = await createMarcup(data.hits)
 
 
 function createMarcup(e) {
-
-  //  removeHiddenAtribute(refs.loadMore)
-
    let marcup = e.map(({ likes, largeImageURL, tags, views, webformatURL, comments, downloads }) =>
             `<div class="photo-card">
             <a href="${largeImageURL}">
@@ -100,8 +84,7 @@ function createMarcup(e) {
     <p class="info-item">
       <b>Downloads</b><br> ${downloads}
     </p>
-  </div>
- 
+  </div> 
 </div>`).join('');
   refs.gallery.insertAdjacentHTML('beforeend', marcup); 
   var lightbox = new SimpleLightbox('.gallery a', { captionsData: `alt`, captionDelay: 250 });
@@ -110,9 +93,6 @@ function createMarcup(e) {
 
 
 
-
-refs.loadMore.addEventListener('click', onClickLoadMore)
-
 async function onClickLoadMore() {
   curretPage += 1
   let currentValue = refs.input.value;
@@ -120,7 +100,6 @@ async function onClickLoadMore() {
   try {       
     const data = await onSearch(currentValue, curretPage)     
     const response = await createMarcup(data.hits)
-
 
     const { height: cardHeight } = document
   .querySelector(".gallery")
@@ -131,8 +110,7 @@ window.scrollBy({
   behavior: "smooth",
 });
     
-    if (curretPage >= Number(data.totalHits/40)){
-      
+    if (curretPage >= Number(data.totalHits/40)){      
       Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.")
       addHiddenAtribute(refs.loadMore) 
    
@@ -149,7 +127,6 @@ window.scrollBy({
 function removeHiddenAtribute(el) {
     el.hidden = false
 }
-
 function addHiddenAtribute(el) {
     el.hidden = true;
 }
