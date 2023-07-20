@@ -14,7 +14,7 @@ const refs = {
     form: document.querySelector('.search-form'),
     gallery: document.querySelector('.gallery'),
 }
-// function onSearch(whatFound) {        
+// function onSearch(whatFound) {
 //     return fetch(`${BASE_URL}?key=${KEY}&q=${whatFound}&${OPTIONS}`)
 //         .then(response => {
 //             if (!response.ok) {
@@ -23,6 +23,7 @@ const refs = {
 //             return response.json();
 //         })
 // }
+
 
 async function onSearch(whatFound) {
     try {
