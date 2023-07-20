@@ -28,6 +28,7 @@ refs.form.addEventListener('submit', onSubmitSearch);
    e.preventDefault();
    addHiddenAtribute(refs.error)
    addHiddenAtribute(refs.loadMore);
+    
    
    refs.gallery.textContent = "";
     let { searchQuery } = e.currentTarget.elements;
