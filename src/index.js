@@ -53,8 +53,7 @@ const response = await createMarcup(data.hits)
    
      } else {
          removeHiddenAtribute(refs.loadMore)
-       console.log( Number(data.totalHits/40))
-       const response = await createMarcup(data.hits)
+        const response = await createMarcup(data.hits)
        Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);
 
  }   
