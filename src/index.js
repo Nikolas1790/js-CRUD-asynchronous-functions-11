@@ -94,8 +94,11 @@ function createMarcup(e) {
  
 </div>`).join('');
   refs.gallery.insertAdjacentHTML('beforeend', marcup); 
-  var lightbox = new SimpleLightbox('.gallery a', { captionsData: `alt`, captionDelay: 250 }); 
+  var lightbox = new SimpleLightbox('.gallery a', { captionsData: `alt`, captionDelay: 250 });
+  lightbox.refresh()
   }
+
+
 
 
 refs.loadMore.addEventListener('click', onClickLoadMore)
@@ -129,6 +132,8 @@ window.scrollBy({
      console.log(error)
      }    
 }
+
+
 
 
 function removeHiddenAtribute(el) {
