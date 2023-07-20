@@ -14,7 +14,12 @@ const refs = {
   error: document.querySelector('.error'),
   loadMore: document.querySelector('.load-more'),
   input: document.querySelector('.input'),
+  submit: document.querySelector('.submit'),
 }
+//  console.log(refs.input)
+// if (refs.input.value ==='' ) {
+//      refs.submit.disabled = false
+//    }
 
 async function onSearch(whatFound, page=1) {  
   const response = await axios.get(`${BASE_URL}?key=${KEY}&q=${whatFound}&${OPTIONS}&page=${page}`);
@@ -26,12 +31,21 @@ refs.form.addEventListener('submit', onSubmitSearch);
 
  async function onSubmitSearch(e) {
    e.preventDefault();
+  
    addHiddenAtribute(refs.error)
    addHiddenAtribute(refs.loadMore);
-    
-   
+  
    refs.gallery.textContent = "";
-    let { searchQuery } = e.currentTarget.elements;
+   let { searchQuery } = e.currentTarget.elements;
+   
+   
+   if (!searchQuery.value) {
+     Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.") 
+     return refs.gallery.textContent = "";
+     
+   }
+
+
    try {       
      const data = await onSearch(searchQuery.value)
     
@@ -40,26 +54,21 @@ refs.form.addEventListener('submit', onSubmitSearch);
       Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.") 
        removeHiddenAtribute(refs.error)
        
-     } else if (curretPage >= Number(data.totalHits/40)){
-            
+     } else if (curretPage >= Number(data.totalHits / 40)) {
+     
+            console.log('hhhhhhhhhhhhh')
       Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.")
-       addHiddenAtribute(refs.loadMore)
-
+       
+const response = await createMarcup(data.hits)
+       Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);
       
    
      } else {
+         removeHiddenAtribute(refs.loadMore)
        console.log( Number(data.totalHits/40))
        const response = await createMarcup(data.hits)
        Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);
 
-//        const { height: cardHeight } = document
-//   .querySelector(".gallery")
-//   .firstElementChild.getBoundingClientRect();
-
-// window.scrollBy({
-//   top: cardHeight * 2,
-//   behavior: "smooth",
-// });
 
  }   
    } catch (error) {
@@ -72,7 +81,7 @@ refs.form.addEventListener('submit', onSubmitSearch);
 
 function createMarcup(e) {
 
-   removeHiddenAtribute(refs.loadMore)
+  //  removeHiddenAtribute(refs.loadMore)
 
    let marcup = e.map(({ likes, largeImageURL, tags, views, webformatURL, comments, downloads }) =>
             `<div class="photo-card">
