@@ -50,6 +50,7 @@ refs.form.addEventListener('submit', onSubmitSearch);
      } else if (curretPage >= Number(data.totalHits / 40)) {     
 const response = await createMarcup(data.hits)
        Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);      
+       Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.")
    
      } else {
          removeHiddenAtribute(refs.loadMore)
