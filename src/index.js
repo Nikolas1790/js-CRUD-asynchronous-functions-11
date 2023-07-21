@@ -3,11 +3,6 @@ import axios from 'axios';
 import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
 
-const BASE_URL = 'https://pixabay.com/api/';
-const OPTIONS = 'image_type=photo&orientation=horizontal&safesearch=true&per_page=40'
-const KEY ='38315175-abb8429954921ba34a6a526ed'
-let curretPage = 1;
-
 const refs = { 
     form: document.querySelector('.search-form'),
   gallery: document.querySelector('.gallery'),
@@ -16,8 +11,13 @@ const refs = {
   input: document.querySelector('.input'),
   submit: document.querySelector('.submit'),
 }
+let curretPage = 1;
 
-async function onSearch(whatFound, page=1) {  
+async function onSearch(whatFound, page = 1) {  
+const BASE_URL = 'https://pixabay.com/api/';
+const OPTIONS = 'image_type=photo&orientation=horizontal&safesearch=true&per_page=40'
+const KEY ='38315175-abb8429954921ba34a6a526ed'
+
   const response = await axios.get(`${BASE_URL}?key=${KEY}&q=${whatFound}&${OPTIONS}&page=${page}`);
           return response.data
  
@@ -28,9 +28,8 @@ refs.form.addEventListener('submit', onSubmitSearch);
  async function onSubmitSearch(e) {
    e.preventDefault();  
    addHiddenAtribute(refs.error)
-   addHiddenAtribute(refs.loadMore);
-  
-   refs.gallery.textContent = "";
+   addHiddenAtribute(refs.loadMore);  
+   refs.gallery.textContent = "";   
    let { searchQuery } = e.currentTarget.elements;   
    
    if (!searchQuery.value.trim()) {
@@ -48,7 +47,7 @@ refs.form.addEventListener('submit', onSubmitSearch);
        removeHiddenAtribute(refs.error)
        
      } else if (curretPage >= Number(data.totalHits / 40)) {     
-const response = await createMarcup(data.hits)
+       const response = await createMarcup(data.hits);
        Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);      
        Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.")
    
