@@ -15,10 +15,21 @@ let curretPage = 1;
 
 async function onSearch(whatFound, page = 1) {  
 const BASE_URL = 'https://pixabay.com/api/';
-const OPTIONS = 'image_type=photo&orientation=horizontal&safesearch=true&per_page=40'
-const KEY ='38315175-abb8429954921ba34a6a526ed'
+// const OPTIONS = 'image_type=photo&orientation=horizontal&safesearch=true&per_page=40'
+  const KEY = '38315175-abb8429954921ba34a6a526ed'
+  
+  const params = new URLSearchParams({
+    key: KEY,
+    image_type: 'photo',
+    orientation: 'horizontal',
+    safesearch: true,
+    per_page: 40,
+    page: page,
+    q: whatFound,
+  })
 
-  const response = await axios.get(`${BASE_URL}?key=${KEY}&q=${whatFound}&${OPTIONS}&page=${page}`);
+  // const response = await axios.get(`${BASE_URL}?key=${KEY}&q=${whatFound}&${OPTIONS}&page=${page}`);
+  const response = await axios.get(`${BASE_URL}?${params}`);
           return response.data
  
 }
