@@ -52,14 +52,7 @@ refs.form.addEventListener('submit', onSubmitSearch);
        const response = await createMarcup(data.hits)
        Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);
 
-//        const { height: cardHeight } = document
-//   .querySelector(".gallery")
-//   .firstElementChild.getBoundingClientRect();
 
-// window.scrollBy({
-//   top: cardHeight * 2,
-//   behavior: "smooth",
-// });
 
  }   
    } catch (error) {
