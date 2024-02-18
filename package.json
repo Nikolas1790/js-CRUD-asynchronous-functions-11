@@ -2,10 +2,10 @@
   "name": "parcel-project-template",
   "version": "2.0.0",
   "description": "",
-  "homepage": "https://Nikolas1790.github.io/goit-js-hw-11",
+  "homepage": "https://Nikolas1790.github.io/js-CRUD-asynchronous-functions-11",
   "scripts": {
     "start": "parcel src/*.html",
-    "build": "parcel build src/*.html --public-url /goit-js-hw-11/"
+    "build": "parcel build src/*.html --public-url /js-CRUD-asynchronous-functions-11/"
   },
   "repository": {
     "type": "git",
